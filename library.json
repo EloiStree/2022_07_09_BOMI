@@ -1,0 +1,21 @@
+{
+  "name": "BOMI",
+  "keywords": "Keyboard, Bluetooth, Macro, Utility, Remote",
+  "description": "BOMI is my bluetooth arduino toolbox to allows inject keyboard on computer from USB and BLE for Open macro Input.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/EloiStree/2022_07_09_BOMI"
+  },
+  "version": "0.0.0",
+  "frameworks": "arduino",
+  "platforms": ["atmelavr", "atmelmegaavr", "atmelsam", "espressif8266", "espressif32", "ststm32"],
+  "authors" :
+  [
+     {
+       "name":"Éloi Strée",
+       "email":"eloistree@gmail.com"
+     }
+  ],
+  "headers": "BOMI.hpp"
+}
