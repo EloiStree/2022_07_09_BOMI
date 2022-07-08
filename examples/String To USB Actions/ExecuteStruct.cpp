@@ -5,15 +5,21 @@
 #include "StructUtility.h"
 #include "ExecuteStruct.h"
 #include "LogStruct.cpp"
+#include "Keyboard.h"
 
 
-KeyboardExecutor::KeyboardExecutor() {}
-void KeyboardExecutor::ExecuteKeyPressionAlt() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyReleaseAlt() {Serial.print(" ??  ");}
+KeyboardExecutor::KeyboardExecutor() {
+
+  Keyboard.begin();
+  Keyboard.releaseAll();
+
+}
+void KeyboardExecutor::ExecuteKeyPressionAlt() {Keyboard.press(0x81);}
+void KeyboardExecutor::ExecuteKeyReleaseAlt() {Keyboard.press(0x81);}
 void KeyboardExecutor::ExecuteKeyPressionCtrl() {Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteKeyReleaseCtrl() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyPressionShift() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyReleaseShift() {Serial.print(" ??  ");}
+void KeyboardExecutor::ExecuteKeyPressionShift() {Keyboard.press(0x80);}
+void KeyboardExecutor::ExecuteKeyReleaseShift() {Keyboard.release(0x80);}
 void KeyboardExecutor::ExecuteKeyPressionEnter() {Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteKeyReleaseEnter() {Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteKeyStrokeEnter() {Serial.print(" ??  ");}
@@ -23,9 +29,25 @@ void KeyboardExecutor::ExecuteKeyStrokeBackspace() {Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, char c) {Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteNumpadDigit(char c) {Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, int index) {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteNumpadDigit(int index) {Serial.print(" ??  ");}
+void KeyboardExecutor::ExecuteNumpadDigit(int index) {
+switch(index){
+case 1: Keyboard.press(225);  delay(2);  Keyboard.release(225); break;
+case 2: Keyboard.press(226);  delay(2);  Keyboard.release(226); break;
+case 3: Keyboard.press(227);  delay(2);  Keyboard.release(227); break;
+case 4: Keyboard.press(228);  delay(2);  Keyboard.release(228); break;
+case 5: Keyboard.press(229);  delay(2);  Keyboard.release(229); break;
+case 6: Keyboard.press(230);  delay(2);  Keyboard.release(230); break;
+case 7: Keyboard.press(231);  delay(2);  Keyboard.release(231); break;
+case 8: Keyboard.press(232);  delay(2);  Keyboard.release(232); break;
+case 9: Keyboard.press(233);  delay(2);  Keyboard.release(233); break;
+case 0: Keyboard.press(234);  delay(2);  Keyboard.release(234); break;
+default: break;
+}
+}
 
-void KeyboardExecutor::Execute(ParseStringToNumpadStrokeAction* toExecute) {Serial.print(" ??  ");}
+void KeyboardExecutor::Execute(ParseStringToNumpadStrokeAction* toExecute) {
+  
+  Serial.print(" ??  ");}
 void KeyboardExecutor::ExecuteAsWindowUnicodeFromText(String unicodeAsText) {Serial.print(" ??  ");}
 void KeyboardExecutor::Execute(WindowUnicodeIntPrintAction* toExecute) {Serial.print(" ??  ");}
 void KeyboardExecutor::Execute(WindowUnicodeStringPrintAction* toExecute) {Serial.print(" ??  ");}
