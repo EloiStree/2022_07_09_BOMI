@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/EloiStree/2022_07_09_BOMI"
   },
-  "version": "0.0.0",
+  "version": "0.0.1",
   "frameworks": "arduino",
   "platforms": ["atmelavr", "atmelmegaavr", "atmelsam", "espressif8266", "espressif32", "ststm32"],
   "authors" :
