@@ -28,7 +28,7 @@ KeyboardStringPrintAction* writeTextRequest = new KeyboardStringPrintAction();
 KeyboardCharTryToStrokeAction* charStrokeRequest =new KeyboardCharTryToStrokeAction();
 KeyboardControlString*  writeControlTextRequest=new KeyboardControlString();
 
-	cmd->Flush();
+ cmd->Flush();
  ConvertToCommandLine(line, cmd );
  Log_Command(cmd);
 

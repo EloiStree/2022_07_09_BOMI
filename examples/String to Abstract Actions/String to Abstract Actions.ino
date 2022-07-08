@@ -1,6 +1,7 @@
 
 #include "Arduino.h"
 #include "String.h"
+
 #include "USBSerialToStringLine.h"
 #include "StructUtility.h"
 #include "StructUtility.cpp"
@@ -15,7 +16,7 @@ void setup() {
   // for debug
   while (!Serial); 
 
-  TDDInput();
+  TDD_Workspace();
 }
 
 
@@ -62,7 +63,7 @@ void PushAsTest(String line){
       delay(4000);
 }
 
-void TDDInput(){
+void TDD_Workspace(){
 
 // for (int i =0; i<4;i++){
   
@@ -104,10 +105,10 @@ void TryToMakeItCrash(){
   PushAsTest("M:50,100,3");
 }
 
-
 void CouldBeCoolToHaveButHard(){
   // Press the key A depending of the layer given to arduino EN to BE-FR from example
   PushAsTest("KLP:A");
   PushAsTest("KLR:A");
+  PushAsTest("C:STOP"); // Try to push the command to release all keyboard, mouse or other on the arduino
 }
 
