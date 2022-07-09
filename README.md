@@ -13,6 +13,8 @@ Feel free to go there if you want to follow my learning path.
 ## Working version
 
 ### HC and IR to USB
+![image](https://user-images.githubusercontent.com/20149493/178083346-55952405-07dd-41fa-ac2b-95eb9c2dcd20.png)
+
 This first verison allows on an Arduino Leonardo to listen to Infra red command from TV Remote or Bluetooth command with HC05 and to convert them to midi push and/or keyboard action on the linked usb device:
 - Commit: https://github.com/EloiStree/2022_07_09_BOMI/commit/6d4997109cc36131ab4e3fa312dc2ccda5601069
  - File: https://github.com/EloiStree/2022_07_09_BOMI/tree/main/examples/V0%20HC05%20IR%20To%20USB%20Keyboard
