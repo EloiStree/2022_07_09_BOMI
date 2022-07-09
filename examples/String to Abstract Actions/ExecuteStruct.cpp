@@ -7,27 +7,31 @@
 #include "LogStruct.cpp"
 
 KeyboardExecutor::KeyboardExecutor() {}
-void KeyboardExecutor::ExecuteKeyPressionAlt() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyReleaseAlt() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyPressionCtrl() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyReleaseCtrl() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyPressionShift() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyReleaseShift() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyPressionEnter() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyReleaseEnter() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyStrokeEnter() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyStrokeTab() {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteKeyStrokeBackspace() {Serial.print(" ??  ");}
+void KeyboardExecutor::ExecuteKeyPressionAlt() {Serial.print(" Press ALT  ");}
+void KeyboardExecutor::ExecuteKeyReleaseAlt() {Serial.print("Release ALT  ");}
+void KeyboardExecutor::ExecuteKeyPressionCtrl() {Serial.print(" Press CTRL  ");}
+void KeyboardExecutor::ExecuteKeyReleaseCtrl() {Serial.print(" Release CTRL  ");}
+void KeyboardExecutor::ExecuteKeyPressionShift() {Serial.print(" Press SHIFT  ");}
+void KeyboardExecutor::ExecuteKeyReleaseShift() {Serial.print(" Release SHIFT  ");}
+void KeyboardExecutor::ExecuteKeyPressionEnter() {Serial.print(" Press ENTER  ");}
+void KeyboardExecutor::ExecuteKeyReleaseEnter() {Serial.print(" Release Enter  ");}
+void KeyboardExecutor::ExecuteKeyStrokeEnter() {Serial.print(" Stroke Enter  ");}
+void KeyboardExecutor::ExecuteKeyStrokeTab() {Serial.print(" Stroke tab  ");}
+void KeyboardExecutor::ExecuteKeyStrokeBackspace() {Serial.print(" Stroke backspace  ");}
 
-void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, char c) {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteNumpadDigit(char c) {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, int index) {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteNumpadDigit(int index) {Serial.print(" ??  ");}
+void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, char c) {
+  Serial.print(" NP  "); Serial.print(c);Serial.print(pression->press);Serial.print(pression->release);}
+void KeyboardExecutor::ExecuteNumpadDigit(char c) {
+  Serial.print(" NP Stroke "); Serial.print(c);}
+void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, int index) {
+  Serial.print(" NP  "); Serial.print(index);Serial.print(pression->press);Serial.print(pression->release);}
+void KeyboardExecutor::ExecuteNumpadDigit(int index) {
+  Serial.print(" NP Stroke "); Serial.print(index);}
 
-void KeyboardExecutor::Execute(ParseStringToNumpadStrokeAction* toExecute) {Serial.print(" ??  ");}
-void KeyboardExecutor::ExecuteAsWindowUnicodeFromText(String unicodeAsText) {Serial.print(" ??  ");}
-void KeyboardExecutor::Execute(WindowUnicodeIntPrintAction* toExecute) {Serial.print(" ??  ");}
-void KeyboardExecutor::Execute(WindowUnicodeStringPrintAction* toExecute) {Serial.print(" ??  ");}
+void KeyboardExecutor::Execute(ParseStringToNumpadStrokeAction* toExecute) {Serial.print(" Numpad(s) for string:"); Serial.println(toExecute->textToNumpad);}
+void KeyboardExecutor::ExecuteAsWindowUnicodeFromText(String unicodeAsText) {Serial.print(" Unicode: "); Serial.println(unicodeAsText); }
+void KeyboardExecutor::Execute(WindowUnicodeIntPrintAction* toExecute) {Serial.print(" Unicode int:  "); Serial.println(toExecute->unicodeIntId);}
+void KeyboardExecutor::Execute(WindowUnicodeStringPrintAction* toExecute) {Serial.print(" Unicode string:  "); Serial.println(toExecute->unicodeStringId);}
 
 void KeyboardExecutor::Execute(KeyboardStringPrintAction* toExecute) {
   Serial.print("Keyboard:");
@@ -37,14 +41,12 @@ void KeyboardExecutor::Execute(KeyboardStringPrintAction* toExecute) {
 void KeyboardExecutor::Execute(PressionRequest* pression, MidiAction* toExecute) {
   Log(pression, toExecute);
 }
-void KeyboardExecutor::Execute(PressionRequest* pression, int hidUsbId) {}
-void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardUSBIDAction* toExecute) {}
+void KeyboardExecutor::Execute(PressionRequest* pression, int hidUsbId) {
+  Serial.print(" Key HID :  ");  Serial.print(pression->press);  Serial.print(pression->release); Serial.println(hidUsbId);}
+void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardUSBIDAction* toExecute) {
+  Serial.print(" Key HID : ");  Serial.print(pression->press);  Serial.print(pression->release); Serial.println(toExecute->id);}
 void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardCharPrintAction* toExecute) {
-
-  Serial.print("CHAR Print:");
-  Serial.print(pression->press);
-  Serial.print(pression->release);
-  Serial.println(toExecute->toWrite);
+  Serial.print("CHAR Print:");  Serial.print(pression->press);  Serial.print(pression->release);  Serial.println(toExecute->toWrite);
 }
 
 
@@ -71,9 +73,12 @@ void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardFunctionStroke
   Serial.println(toExecute->f1To24);
 }
 
-void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardArrowType* toExecute) {}
-void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardNumpadType* toExecute) {}
-void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardClassicKeyType* toExecute) {}
+void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardArrowType* toExecute) {
+  Serial.print(" Enum Keys:");  Serial.println(*toExecute);}
+void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardNumpadType* toExecute) {
+  Serial.print(" Enum Numpad:");  Serial.println(*toExecute);}
+void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardClassicKeyType* toExecute) {
+  Serial.print(" Enum Classic:");  Serial.println(*toExecute);}
 
 void KeyboardExecutor::Execute(PressionRequest* pression, SwitchPinIntMode* toExecute) {
   pinMode(toExecute->pinId, OUTPUT);

@@ -4,6 +4,7 @@
 #include "USB/StringToUSBMIDI.h"
 #include "IR2Midi.h"
 #include "DigitAndAnalogAsBoolean.h"
+#include "ConvertStringToStruct.cpp"
 
 USBSerialToStringLine BT;
 StringToUSBKeyboard USBT;
@@ -27,9 +28,7 @@ void setup() {
 
   pinsAsBoolean.InitDefault();
   pinsAsBoolean.RefreshPinMode();
-
   ////SETUP
-
   ////SETUP
 }
 String sString = "";
@@ -98,26 +97,8 @@ void PushLineMidi(bool press, byte note, byte velocity, byte channel) {
 void PushLine(String line) {
   Serial.print("Found Line: ");
   Serial.println(line);
-  int lineLenght = line.length();
-  if (lineLenght > 1 && line[0] == 'K') {
-    if (m_useDelayToDebug)
-      delay(2000);
-    USBT.TryToParseTextToAction(line);
-  } else if (lineLenght > 2 && line[0] == 'W' && line[1] == 'U') {
-    if (m_useDelayToDebug)
-      delay(2000);
-    USBT.TryToParseTextToUnicode(line);
-  } else if (lineLenght > 1 && line[0] == 'M') {
-    if (m_useDelayToDebug)
-      delay(2000);
-    MIDIT.TryToParseTextToAction(line);
-    if (m_writeMidiCodeWithNumPad) {
-      String keyPush = "00";
-      keyPush += MIDIT.m_lastPushNote;
-      keyPush += MIDIT.m_lastPushVelocity;
-      keyPush += MIDIT.m_lastPushChannel;
-      keyPush += "00";
-      USBT.ConvertStringToNumpadKeys(keyPush);
-    }
-  }
+  //delay(3000);
+  TryConvertAndExecute(line);
+  Serial.print("Sent");
+  
 }
