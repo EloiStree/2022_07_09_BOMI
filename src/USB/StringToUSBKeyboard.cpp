@@ -19,7 +19,7 @@ void StringToUSBKeyboard::SwitchLanguageOnWindow() {
 }
 
 void StringToUSBKeyboard::ConvertStringToNumpadKeys(String text) {
-
+/*
   int strLenght = text.length();
   for (int i = 0; i < strLenght; i++) {
     if (text[i] == '1') {
@@ -73,10 +73,12 @@ void StringToUSBKeyboard::ConvertStringToNumpadKeys(String text) {
       Keyboard.release(234);
     }
   }
+  */
 }
 
 
 void StringToUSBKeyboard::TryToParseTextToUnicode(String commandline) {
+  /*
   if (!(commandline[0] == 'W' && commandline[1] == 'U'))
     return;
   int removeIndex = commandline.indexOf('\n');
@@ -151,10 +153,12 @@ void StringToUSBKeyboard::TryToParseTextToUnicode(String commandline) {
     LogPrintLn();
   delay(2);
   Keyboard.release(0x82);
+  
+  */
 }
 
 void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
-
+/*
   if (commandline[0] != 'K')
     return;
 
@@ -418,6 +422,7 @@ void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
   }
 
   LogPrintLn("Try to translate but key code not found");
+  */
 }
 
 

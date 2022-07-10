@@ -32,7 +32,6 @@ void setup() {
 }
 String sString = "";
 void loop() {
-
   m_writeMidiCodeWithNumPad = digitalRead(useMidiAsKeyboardPin) != HIGH;
   sString = "";
   if (BT.CheckForAvailable()) {
