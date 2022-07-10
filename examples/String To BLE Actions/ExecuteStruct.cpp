@@ -1,18 +1,16 @@
-#ifndef EXECUTE_CPP
-#define EXECUTE_CPP
-#include <Keyboard.h>
+// #ifndef EXECUTEE_CPP
+// #define EXECUTEE_CPP
+
 #include "Arduino.h"
 #include "String.h"
 #include "StructUtility.h"
 #include "ExecuteStruct.h"
 #include "LogStruct.cpp"
 #include "SerialLog.cpp"
-#include "USB/StringToUSBMIDI.h"
-#include "USB/StringToUSBKeyboard.h"
 
-StringToUSBMIDI MIDIT ;
-StringToUSBKeyboard USBT;
 
+///////// KEYBOARD H ID //////////////////////////////////////////////
+//https://www.arduino.cc/reference/en/language/functions/usb/keyboard/keyboardmodifiers/
 #define KEY_LEFT_CTRL 0x80
 #define KEY_LEFT_SHIFT 0x81
 #define KEY_LEFT_ALT 0x82  //Option (⌥) on Mac
@@ -51,13 +49,17 @@ StringToUSBKeyboard USBT;
 #define KEY_DOWN_ARROW 0xD9
 #define KEY_LEFT_ARROW 0xD8
 #define KEY_RIGHT_ARROW 0xD7
-
-
-static const int timeBetweenPressRelease = 10;
-//https://www.arduino.cc/reference/en/language/functions/usb/keyboard/keyboardmodifiers/
 static const int F1to24[]{ 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73 };
 static const int NP0to9[]{ 0xEA, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9 };
 static const char Alpha0to9[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+///////// KEYBOARD H ID //////////////////////////////////////////////
+
+static const int timeBetweenPressRelease = 10;
+
+
+
+
+
 
 
 static const int IdOfArduinoModule(String text) {
@@ -148,22 +150,22 @@ static const void PressionCharTargetKey(bool press, bool release, char key) {
   //LogPrint(release);
   //LogPrint(key);
   //LogPrintLn();
-  if (press)
-    Keyboard.press(key);
+  if (press) {}
+  ////Keyboard.press(key);
   if (press && release)
     delay(timeBetweenPressRelease);
-  if (release)
-    Keyboard.release(key);
+  if (release) {}
+  ////Keyboard.release(key);
 }
 
 static const void Stroke(char key) {
   PressionCharTargetKey(true, true, key);
 }
 static const void Press(char key) {
-  Keyboard.press(key);
+  ////Keyboard.press(key);
 }
 static const void Release(char key) {
-  Keyboard.release(key);
+  ////Keyboard.release(key);
 }
 static const void PressionCharTargetKey(PressionRequest* pression, char key) {
   PressionCharTargetKey(pression->press, pression->release, key);
@@ -177,21 +179,21 @@ static const void PressionIntTargetKey(bool press, bool release, int key) {
   //LogPrint(release);
   //LogPrint(key);
   //LogPrintLn();
-  if (press)
-    Keyboard.press(key);
+  if (press) {}
+  //Keyboard.press(key);
   if (press && release)
     delay(timeBetweenPressRelease);
-  if (release)
-    Keyboard.release(key);
+  if (release) {}
+  //Keyboard.release(key);
 }
 static const void Stroke(int key) {
   PressionIntTargetKey(true, true, key);
 }
 static const void Press(int key) {
-  Keyboard.press(key);
+  //Keyboard.press(key);
 }
 static const void Release(int key) {
-  Keyboard.release(key);
+  //Keyboard.release(key);
 }
 static const void PressionIntTargetKey(PressionRequest* pression, int key) {
   PressionIntTargetKey(pression->press, pression->release, key);
@@ -206,7 +208,7 @@ static const void KeyboardAsText(bool press, bool release, String text) {
   } else {
     //LogPrint("Print Keyboard:");
     //LogPrintLn(text);
-    Keyboard.print(text);
+    //Keyboard.print(text);
   }
 }
 static const void KeyboardAsText(PressionRequest* pression, String text) {
@@ -216,12 +218,8 @@ static const void KeyboardAsText(PressionRequest* pression, String text) {
 
 KeyboardExecutor::KeyboardExecutor() {
 
-  // Keyboard.begin();
-  // Keyboard.releaseAll();
-
-  MIDIT.Init();
-  USBT.Init();
-
+  //Keyboard.begin();
+  //Keyboard.releaseAll();
 }
 void KeyboardExecutor::ExecuteKeyPressionAlt() {
   //LogPrint(" Press ALT  ");
@@ -309,12 +307,12 @@ void KeyboardExecutor::Execute(WindowUnicodeStringPrintAction* toExecute) {
 void KeyboardExecutor::Execute(KeyboardStringPrintAction* toExecute) {
   //LogPrint("Keyboard:");
   //LogPrintLn(toExecute->toWrite);
-  Keyboard.print(toExecute->toWrite);
+  //Keyboard.print(toExecute->toWrite);
 }
 
 void KeyboardExecutor::Execute(PressionRequest* pression, MidiAction* toExecute) {
   Log(pression, toExecute);
-  MIDIT.NoteStroke(toExecute->note, toExecute->velocity, toExecute->channel, pression->press, pression->release );
+  //MIDIT.NoteStroke(toExecute->note, toExecute->velocity, toExecute->channel, pression->press, pression->release );
 }
 void KeyboardExecutor::Execute(PressionRequest* pression, int hidUsbId) {
   //LogPrint(" Key HID :  ");
@@ -503,4 +501,4 @@ void KeyboardExecutor::Execute(CallFunctionInArduino* toExecute) {
 
 
 
-#endif
+//#endif
