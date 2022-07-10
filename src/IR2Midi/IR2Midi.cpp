@@ -5,6 +5,7 @@
 #include <string.h>
 #include "IR2Midi.h"
 #include <IRremote.hpp>
+#include "SerialLog.cpp"
 
 
 IR2Midi::IR2Midi() {
@@ -34,14 +35,14 @@ void IR2Midi::InitIR() {
 // uint16_t sAddress = (velocity-126)/2;
 // uint8_t sCommand = note;
 // uint8_t sRepeats = 0;
-//     Serial.println();
-//     Serial.print(F("Send now: address=0x"));
-//     Serial.print(sAddress, HEX);
-//     Serial.print(F(" command=0x"));
-//     Serial.print(sCommand, HEX);
-//     Serial.print(F(" repeats="));
-//     Serial.print(sRepeats);
-//     Serial.println();
+//     LogPrintLn();
+//     LogPrint(F("Send now: address=0x"));
+//     LogPrint(sAddress, HEX);
+//     LogPrint(F(" command=0x"));
+//     LogPrint(sCommand, HEX);
+//     LogPrint(F(" repeats="));
+//     LogPrint(sRepeats);
+//     LogPrintLn();
 //     IrSender.sendNEC(sAddress, sCommand, sRepeats);
 // }
 
@@ -54,7 +55,7 @@ void IR2Midi::ReadAndConvertToMidi() {
     IrReceiver.printIRResultShort(&Serial);
     if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
       if(m_useDebugLog){
-        Serial.println(F("Received noise or an unknown (or not yet enabled) protocol"));
+        LogPrintLn(F("Received noise or an unknown (or not yet enabled) protocol"));
         IrReceiver.printIRResultRawFormatted(&Serial, true);
       }
     } else if (IrReceiver.decodedIRData.protocol != UNKNOWN) {
@@ -97,21 +98,21 @@ void IR2Midi::DisplayPreviousIRToMidiIfFound() {
 
 void IR2Midi::DisplayPreviousIRToMidi() {
 
-  Serial.println("## Display IR 2 MIDI ##");
+  LogPrintLn("## Display IR 2 MIDI ##");
   
-  Serial.print(" Address: ");
-  Serial.print(m_peviousIrAddress);
-  Serial.print(" Command: ");
-  Serial.print(m_peviousIrCommand);
-  Serial.println();
+  LogPrint(" Address: ");
+  LogPrint(m_peviousIrAddress);
+  LogPrint(" Command: ");
+  LogPrint(m_peviousIrCommand);
+  LogPrintLn();
 
-  Serial.print(" Note: ");
-  Serial.print(m_peviousNote);
-  Serial.print(" Velocity: ");
-  Serial.print(m_peviousVelocity);
-  Serial.print(" Channel: ");
-  Serial.print(m_peviousChannel);
-  Serial.println();
+  LogPrint(" Note: ");
+  LogPrint(m_peviousNote);
+  LogPrint(" Velocity: ");
+  LogPrint(m_peviousVelocity);
+  LogPrint(" Channel: ");
+  LogPrint(m_peviousChannel);
+  LogPrintLn();
 }
 
 #endif

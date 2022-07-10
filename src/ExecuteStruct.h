@@ -8,7 +8,6 @@
 
 public:
 KeyboardExecutor();
-
 void ExecuteKeyPressionAlt();
 void ExecuteKeyReleaseAlt();
 void ExecuteKeyPressionCtrl();

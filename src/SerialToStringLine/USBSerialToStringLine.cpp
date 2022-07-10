@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include <SoftwareSerial.h>
 #include "USBSerialToStringLine.h"
+#include "SerialLog.cpp"
 
 
 USBSerialToStringLine::USBSerialToStringLine(){
@@ -11,7 +12,7 @@ void USBSerialToStringLine::Init(uint8_t tx, uint8_t rx, int baud = 9600) {
   RxD = rx;
   TxD = tx;
   TargetSerial = new SoftwareSerial(RxD, TxD, false);
-  //Serial.begin(baud);
+  Serial.begin(baud);
   pinMode(RxD, INPUT);
   pinMode(TxD, OUTPUT);
   TargetSerial->begin(baud);
@@ -29,11 +30,11 @@ bool USBSerialToStringLine::CheckForAvailable() {
       lineFound = received;
       received = "";
 
-      // Serial.print("Line found:");
-      // Serial.println(lineFound);
+      // LogPrint("Line found:");
+      // LogPrintLn(lineFound);
     } else {
-      // Serial.print("Append:");
-      // Serial.println(received);
+      // LogPrint("Append:");
+      // LogPrintLn(received);
     }
   }
   return newLineFound;
@@ -41,12 +42,12 @@ bool USBSerialToStringLine::CheckForAvailable() {
 void USBSerialToStringLine::DisplayStateIfChanged() {
   if (newCharFound) {
     if (newLineFound){
-      Serial.print("Line found:"); 
-      Serial.println(lineFound);
+      LogPrint("Line found:"); 
+      LogPrintLn(lineFound);
     }
     else{
-      Serial.print("Append:");
-      Serial.println(received);
+      LogPrint("Append:");
+      LogPrintLn(received);
     }
   }
 }

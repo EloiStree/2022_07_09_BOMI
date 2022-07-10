@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "String.h"
+#include "SerialLog.cpp"
 
 #define SPTR_SIZE   20
 char   *sPtr [SPTR_SIZE];

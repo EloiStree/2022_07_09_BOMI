@@ -1,105 +1,134 @@
 #ifndef ConvertStringToStruct_CPP
 #define ConvertStringToStruct_CPP
 
-#include "Arduino.h";
-#include "String.h";
-#include "ExecuteStruct.h";
-#include "StructUtility.h";
-#include "StructUtility.cpp";
-#include "LogStruct.cpp";
+#include "Arduino.h"
+#include "String.h"
+#include "ExecuteStruct.h"
+#include "StructUtility.h"
+#include "StructUtility.cpp"
+#include "LogStruct.cpp"
+#include "SerialLog.cpp"
+#include "ConvertStringToStruct.h"
+
+
+
+// KeyboardExecutor* executor = new KeyboardExecutor();
+// PressionRequest* pressRequest = new PressionRequest();
+// CommandLineKeyValue* cmd = new CommandLineKeyValue();
+// MidiAction* midiAction = new MidiAction();
+// TransitToAllSerialText* transitionToAll = new TransitToAllSerialText();
+
+
+
+
+static KeyboardExecutor* executor = new KeyboardExecutor();
+static PressionRequest* pressRequesRequest = new PressionRequest();
+static CommandLineKeyValue* cmd = new CommandLineKeyValue();
+static MidiAction* midiRequest = new MidiAction();
+static KeyboardFunctionStroke* keyboardfunctionRequest = new KeyboardFunctionStroke();
+static KeyboardNumpadStroke* numpadRequest = new KeyboardNumpadStroke();
+static KeyboardAlphaStroke* alphaRequest = new KeyboardAlphaStroke();
+static TransitToAllSerialText* transitionToAllRequest = new TransitToAllSerialText();
+static PrintDefaultSerialText* serialPrintRequest = new PrintDefaultSerialText();
+static CallFunctionInArduino* callFunctionRequest = new CallFunctionInArduino();
+static SwitchPinAsStringMode* pinStringRequest= new SwitchPinAsStringMode();
+static KeyboardStringPrintAction* writeTextRequest = new KeyboardStringPrintAction();
+static KeyboardCharTryToStrokeAction* charStrokeRequest =new KeyboardCharTryToStrokeAction();
+static KeyboardControlString*  writeControlTextRequest=new KeyboardControlString();
+static KeyboardStringPrintAction*  writeStringTextRequest=new KeyboardStringPrintAction();
+
 
 
 static const void TryConvertAndExecute(String line){
 	
-bool wasConverted=false;
-bool * converted = &wasConverted;
-KeyboardExecutor* executor = new KeyboardExecutor();
-PressionRequest* pressRequesRequest = new PressionRequest();
-CommandLineKeyValue* cmd = new CommandLineKeyValue();
-MidiAction* midiRequest = new MidiAction();
-KeyboardFunctionStroke* keyboardfunctionRequest = new KeyboardFunctionStroke();
-KeyboardNumpadStroke* numpadRequest = new KeyboardNumpadStroke();
-KeyboardAlphaStroke* alphaRequest = new KeyboardAlphaStroke();
-TransitToAllSerialText* transitionToAllRequest = new TransitToAllSerialText();
-PrintDefaultSerialText* serialPrintRequest = new PrintDefaultSerialText();
-CallFunctionInArduino* callFunctionRequest = new CallFunctionInArduino();
-SwitchPinAsStringMode* pinStringRequest= new SwitchPinAsStringMode();
-KeyboardStringPrintAction* writeTextRequest = new KeyboardStringPrintAction();
-KeyboardCharTryToStrokeAction* charStrokeRequest =new KeyboardCharTryToStrokeAction();
-KeyboardControlString*  writeControlTextRequest=new KeyboardControlString();
 
+ bool wasConverted=false;
+ bool * converted = &wasConverted;
  cmd->Flush();
  ConvertToCommandLine(line, cmd );
  Log_Command(cmd);
 
-if( TryConvertToMidi(cmd, pressRequesRequest ,  midiRequest ) ){
+if( TryConvertToText(cmd,   writeStringTextRequest ) ){
+    LogPrintLn(">>T");
+    Serial.print(">>T");
+    Serial.println(writeStringTextRequest->toWrite);
+    executor->Execute( writeStringTextRequest);
+}
+else if( TryConvertToMidi(cmd, pressRequesRequest ,  midiRequest ) ){
+  LogPrintLn(">>0");
   Serial.println(">>0");
+  Serial.println(midiRequest->note);
+  Serial.println(" > ");
+  Serial.println(midiRequest->velocity);
+  Serial.println(" > ");
+  Serial.println(midiRequest->channel);
+  Serial.println(" > ");
     executor->Execute(pressRequesRequest, midiRequest);
 }
 else if(TryConvertTo(cmd,  transitionToAllRequest)){
-  Serial.println(">>1");
+  LogPrintLn(">>1");
     executor->Execute(transitionToAllRequest);
 }else if(TryConvertTo(cmd,  keyboardfunctionRequest)){
-  Serial.println(">>2");
+  LogPrintLn(">>2");
     executor->Execute(pressRequesRequest,keyboardfunctionRequest);
 }
 else if(TryConvertTo(cmd,  numpadRequest)){
-  Serial.println(">>3");
+  LogPrintLn(">>3");
     executor->Execute(pressRequesRequest,numpadRequest);
 }else if(TryConvertTo(cmd,  alphaRequest)){
-  Serial.println(">>4");
+  LogPrintLn(">>4");
     executor->Execute(pressRequesRequest,alphaRequest);
 }
 else if (TryConvertTo(cmd,  serialPrintRequest) ){
-  Serial.println(">>5");
+  LogPrintLn(">>5");
     executor->Execute(serialPrintRequest);
 }
 else if (TryConvertTo(cmd,  callFunctionRequest)) {
-  Serial.println(">>6");
+  LogPrintLn(">>6");
     executor->Execute(callFunctionRequest);
 }
 else if (TryConvertTo(cmd,  pressRequesRequest , pinStringRequest)) {
-  Serial.println(">>7");
+  LogPrintLn(">>7");
     executor->Execute(pressRequesRequest,pinStringRequest);
 }
 else if (TryConvertToControl(cmd,  pressRequesRequest , writeControlTextRequest)) {
-  Serial.println(">>8");
+  LogPrintLn(">>8");
     executor->Execute(pressRequesRequest,writeControlTextRequest);
 }
 else if (TryConvertTo(cmd,  pressRequesRequest , charStrokeRequest)) {
   
-    Serial.println(">>9");
+    LogPrintLn(">>9");
     executor->Execute(pressRequesRequest,charStrokeRequest);
 }
 else if (TryConvertTo(cmd,   writeTextRequest)) {
-    Serial.println(">>10");
+    LogPrintLn(">>10");
     executor->Execute(writeTextRequest);
 }
 //TryConvertTo(CommandLineKeyValue* cmd,  KeyboardStringPrintAction* actionOut)
 
 //   line.trim();
-//   Serial.print("Found Line:");
-//   Serial.println(line);
+//   LogPrint("Found Line:");
+//   LogPrintLn(line);
 //   int lineLenght = line.length();
 //   if (lineLenght > 2 && line[0] == 'N' && line[1] == 'P') {
-//     Serial.print("Keyboard Numpad parse:");
-//     Serial.println(line);
+//     LogPrint("Keyboard Numpad parse:");
+//     LogPrintLn(line);
 //     //blePush.PushNumpad(line);
 //   }  
 //   else if (lineLenght > 1 && line[0] == 'K') {
-//     Serial.print("Keyboard parse:");
-//     Serial.println(line);
+//     LogPrint("Keyboard parse:");
+//     LogPrintLn(line);
 //     //blePush.PushKey(0x80, true, true);
 
 //   } 
 //   else if (lineLenght > 1 && line[0] == 'M') {
-//     Serial.print("Midi parse:");
-//     Serial.println(line);
+//     LogPrint("Midi parse:");
+//     LogPrintLn(line);
 //     TryConvertToMidi(converted, cmd, pressRequest, midiAction) ;
 //     if(*converted)
 //       Log(pressRequest, midiAction);
 //     else 
-//       Serial.println("Fail to convert Midi");
+//       LogPrintLn("Fail to convert Midi");
 //     //blePush.PushMidi(50,127,5);
 
 //   }  else if (lineLenght > 1 && line[0] == 'T') {
@@ -108,27 +137,28 @@ else if (TryConvertTo(cmd,   writeTextRequest)) {
 //     if(*converted)
 //       Log(transitionToAll);
 //     else 
-//       Serial.println("Fail to convert  Transit All");
+//       LogPrintLn("Fail to convert  Transit All");
 //   }  else if (lineLenght > 1 && line[0] == 'S') {
 
-//       Serial.println("Fail to convert  Transit All");
+//       LogPrintLn("Fail to convert  Transit All");
 //   }else if (lineLenght > 1 && line[0] == 'P') {
 
-//     Serial.println(cmd->value);
+//     LogPrintLn(cmd->value);
 //     // TryConvertToPinAction(converted, cmd,  );
 //     // if(*converted)
 //     //   Log(transitionToAll);
 //     // else 
-//     //   Serial.println("Fail to convert  Transit All");
+//     //   LogPrintLn("Fail to convert  Transit All");
 //   }
 //   else {
-//     Serial.print("Unmanaged line:");
-//     Serial.println(line);
+//     LogPrint("Unmanaged line:");
+//     LogPrintLn(line);
 //   }
 	
 	
 	
 	
 }
+
 
 #endif

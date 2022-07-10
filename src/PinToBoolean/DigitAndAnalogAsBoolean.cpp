@@ -3,6 +3,7 @@
 #include "Arduino.h"
 #include "DigitAndAnalogAsBoolean.h"
 #include <string.h>
+#include "SerialLog.cpp"
 
   AnalogPinBoolean::AnalogPinBoolean(int pinId,int range_0_1023, bool defaultValueIsOn, bool inverse=false){ 
     m_pinId= pinId;
@@ -81,23 +82,23 @@ void ListenPinsAsBoolean::DisplayOnSerialChangedInput(bool updateFirst){
   for (int i = 0; i < digitalBoolCount; i++) {
     if (!digitalBool[i].IsPinZero() && 
       digitalBool[i].HasChangedThisFrame()) {
-      Serial.print(digitalBool[i].m_pinId);
-      Serial.print(digitalBool[i].IsCurrentOn());
-      Serial.print(" ");
+      LogPrint(digitalBool[i].m_pinId);
+      LogPrint(digitalBool[i].IsCurrentOn());
+      LogPrint(" ");
       hadChange=true;
     }
   }
   for (int i = 0; i < analogBoolCount; i++) {
     if (!analogBool[i].IsPinZero()
      && analogBool[i].HasChangedThisFrame()) {
-      Serial.print(analogBool[i].m_pinId);
-      Serial.print(analogBool[i].IsCurrentOn());
-      Serial.print(" ");
+      LogPrint(analogBool[i].m_pinId);
+      LogPrint(analogBool[i].IsCurrentOn());
+      LogPrint(" ");
       hadChange=true;
     }
   }
   if(hadChange)
-      Serial.println(" <- Had Pin Change");
+      LogPrintLn(" <- Had Pin Change");
 }
 
 void ListenPinsAsBoolean::InitDefault(){

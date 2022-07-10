@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "StringToUSBKeyboard.h"
 #include "Keyboard.h"
+#include "SerialLog.cpp"
 
 //#include "MouseAndKeyboard.h"
 
@@ -91,7 +92,7 @@ void StringToUSBKeyboard::TryToParseTextToUnicode(String commandline) {
   Keyboard.press(0x82);
   delay(2);
   if (m_useDebugLog)
-    Serial.print("Unicode:");
+    LogPrint("Unicode:");
   for (int i = 0; i < strLenght; i++) {
     if (fChar[i] == '1') {
       Keyboard.press(225);
@@ -144,10 +145,10 @@ void StringToUSBKeyboard::TryToParseTextToUnicode(String commandline) {
       Keyboard.release(234);
     }
     if (m_useDebugLog)
-      Serial.print(fChar[i]);
+      LogPrint(fChar[i]);
   }
   if (m_useDebugLog)
-    Serial.println();
+    LogPrintLn();
   delay(2);
   Keyboard.release(0x82);
 }
@@ -169,12 +170,12 @@ void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
     return;
   if (m_useDebugLog) {
 
-    Serial.print("Here A#");
-    Serial.print(commandline);
-    Serial.print("#");
-    Serial.println();
-    Serial.print("Lenght A:");
-    Serial.println(strLenght);
+    LogPrint("Here A#");
+    LogPrint(commandline);
+    LogPrint("#");
+    LogPrintLn();
+    LogPrint("Lenght A:");
+    LogPrintLn(strLenght);
   }
 
   //IS it Stroke, press or release
@@ -217,8 +218,8 @@ void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
       // Code later be sure that lineIndex + 2 & lineIndex + 3 exist
       if (commandline[lineIndex + 1] == 'F') {
         String fChar = commandline.substring(lineIndex + 2);
-        Serial.print("Parse to F:");
-        Serial.println(fChar);
+        LogPrint("Parse to F:");
+        LogPrintLn(fChar);
         if (fChar.equals("1"))
           whatToPress = 0xC2;  // #define KEY_F1            0xC2
         else if (fChar.equals("2"))
@@ -275,8 +276,8 @@ void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
       // Code later be sure lineIndex + 3 exist
       else if ((lineIndex + 3) < strLenght && commandline[lineIndex + 1] == 'N') {
         char numChar = commandline[lineIndex + 3];
-        Serial.print("Parse to NP:");
-        Serial.println(numChar);
+        LogPrint("Parse to NP:");
+        LogPrintLn(numChar);
         if (numChar == '1')
           whatToPress = 225;  // 225 '\341' Keypad 1 and End
         else if (numChar == '2')
@@ -396,15 +397,15 @@ void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
 
 
 
-        Serial.print("T");
-        Serial.print(whatToPress);
-        Serial.print("-");
-        Serial.print(cmd);
-        Serial.print("-");
-        Serial.print(press);
-        Serial.print("-");
-        Serial.print(release);
-        Serial.println();
+        LogPrint("T");
+        LogPrint(whatToPress);
+        LogPrint("-");
+        LogPrint(cmd);
+        LogPrint("-");
+        LogPrint(press);
+        LogPrint("-");
+        LogPrint(release);
+        LogPrintLn();
         if (whatToPress > 0) {
           PushWithDelayIfNeeded(whatToPress, press, release, m_defaultDelayWhenNeeded);
         } else {
@@ -416,7 +417,7 @@ void StringToUSBKeyboard::TryToParseTextToAction(String commandline) {
     }
   }
 
-  Serial.println("Try to translate but key code not found");
+  LogPrintLn("Try to translate but key code not found");
 }
 
 

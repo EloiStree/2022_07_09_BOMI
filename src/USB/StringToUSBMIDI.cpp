@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "StringToUSBMIDI.h"
 #include "MIDIUSB.h"
+#include "SerialLog.cpp"
 
 
 StringToUSBMIDI::StringToUSBMIDI() {}
@@ -25,12 +26,12 @@ void StringToUSBMIDI::TryToParseTextToAction(String commandline) {
   int strLenght = commandline.length();
   if (strLenght < 2)
     return;
-  Serial.print("Here MIDI A#");
-  Serial.print(commandline);
-  Serial.print("#");
-  Serial.println();
-  Serial.print("Lenght A:");
-  Serial.println(strLenght);
+  LogPrint("Here MIDI A#");
+  LogPrint(commandline);
+  LogPrint("#");
+  LogPrintLn();
+  LogPrint("Lenght A:");
+  LogPrintLn(strLenght);
 
   //IS it Stroke, press or release
   bool press = true;
@@ -66,21 +67,21 @@ void StringToUSBMIDI::TryToParseTextToAction(String commandline) {
       velocity = values.substring(startIndex + 1, endIndex).toInt();
       channel = values.substring(endIndex + 1).toInt();
     }
-  // Serial.print("MIDI Sent:");
-  // Serial.print(note);
-  // Serial.print("-");
-  // Serial.print(velocity);
-  // Serial.print("-");
-  // Serial.print(channel);
-  // Serial.print("-");
-  // Serial.print(startIndex);
-  // Serial.print("-");
-  // Serial.print(endIndex);
-  // Serial.println();
+  // LogPrint("MIDI Sent:");
+  // LogPrint(note);
+  // LogPrint("-");
+  // LogPrint(velocity);
+  // LogPrint("-");
+  // LogPrint(channel);
+  // LogPrint("-");
+  // LogPrint(startIndex);
+  // LogPrint("-");
+  // LogPrint(endIndex);
+  // LogPrintLn();
     NoteStroke(note, velocity, channel, press,release, m_defaultDelayWhenNeeded);
     return;
   }
-  Serial.println("Try to translate but key code not found");
+  LogPrintLn("Try to translate but key code not found");
 }
 
 

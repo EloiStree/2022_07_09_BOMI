@@ -1,4 +1,5 @@
 
+#include "ConvertStringToStruct.h"
 #include "ConvertStringToStruct.cpp"
 const bool useDelay=true;
 const int timeBetweenDelayPush=300;

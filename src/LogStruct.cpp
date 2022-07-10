@@ -3,66 +3,67 @@
 #include "Arduino.h"
 #include "String.h"
 #include "StructUtility.h"
+#include "SerialLog.cpp"
 
 
 static const void Log_Command(CommandLineKeyValue* command) {
 
 
-  Serial.println();
-  Serial.print("> Command Start:");
-  Serial.print(command->rawOrigine);
-  Serial.print("|");
-  Serial.print(command->rawOrigineTrimmed);
-  Serial.print("|");
-  Serial.print(command->key);
-  Serial.print("|");
-  Serial.print(command->keyLength);
-  Serial.print("|");
-  Serial.print(command->value);
-  Serial.print("|");
-  Serial.print(command->valueLength);
-  Serial.println("> Command End");
+  LogPrintLn();
+  LogPrint("> Command Start:");
+  LogPrint(command->rawOrigine);
+  LogPrint("|");
+  LogPrint(command->rawOrigineTrimmed);
+  LogPrint("|");
+  LogPrint(command->key);
+  LogPrint("|");
+  LogPrint(command->keyLength);
+  LogPrint("|");
+  LogPrint(command->value);
+  LogPrint("|");
+  LogPrint(command->valueLength);
+  LogPrintLn("> Command End");
 }
 
 
 static const void Log( TransitToAllSerialText* transitAction ){
 
-Serial.println("");
-Serial.println("Log to transit:");
-Serial.print(transitAction->textToPrint);
-Serial.println("<>");
+LogPrintLn("");
+LogPrintLn("Log to transit:");
+LogPrint(transitAction->textToPrint);
+LogPrintLn("<>");
 }
 
 
 static const void Log(MidiAction* midi){
 
-Serial.println("");
-Serial.println("Log Midi:");
-  Serial.print("|");
-Serial.print(midi->note);
-  Serial.print("|");
-Serial.print(midi->velocity);
-  Serial.print("|");
-Serial.print(midi->channel);
-Serial.println("<>");
+LogPrintLn("");
+LogPrintLn("Log Midi:");
+  LogPrint("|");
+LogPrint(midi->note);
+  LogPrint("|");
+LogPrint(midi->velocity);
+  LogPrint("|");
+LogPrint(midi->channel);
+LogPrintLn("<>");
 }
 
 
 static const void Log(PressionRequest* action ,MidiAction* midi){
 
-Serial.println("");
-Serial.println("Log Midi:");
-  Serial.print("|");
-Serial.print(midi->note);
-  Serial.print("|");
-Serial.print(midi->velocity);
-  Serial.print("|");
-Serial.print(midi->channel);
-  Serial.print("|");
-Serial.print(action->press);
-  Serial.print("|");
-Serial.print(action->release);
-Serial.println("<>");
+LogPrintLn("");
+LogPrintLn("Log Midi:");
+  LogPrint("|");
+LogPrint(midi->note);
+  LogPrint("|");
+LogPrint(midi->velocity);
+  LogPrint("|");
+LogPrint(midi->channel);
+  LogPrint("|");
+LogPrint(action->press);
+  LogPrint("|");
+LogPrint(action->release);
+LogPrintLn("<>");
 }
 
 #endif

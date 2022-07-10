@@ -1,14 +1,14 @@
 #include "Arduino.h"
 #include "USBSerialToStringLine.h"
-#include "USB/StringToUSBKeyboard.h"
-#include "USB/StringToUSBMIDI.h"
 #include "IR2Midi.h"
 #include "DigitAndAnalogAsBoolean.h"
+#include "SerialLog.h"
+#include "SerialLog.cpp"
+#include "ConvertStringToStruct.h"
 #include "ConvertStringToStruct.cpp"
+//#include "SerialLog/SerialLog.cpp"
 
 USBSerialToStringLine BT;
-StringToUSBKeyboard USBT;
-StringToUSBMIDI MIDIT;
 IR2Midi irToMidi;
 
 bool m_useDelayToDebug = false;
@@ -18,10 +18,9 @@ ListenPinsAsBoolean pinsAsBoolean;
 int useMidiAsKeyboardPin = 2;
 
 void setup() {
+  SetSerialLog(true);
   //serialRead = new USBSerialToStringLine();
-  BT.Init(10, 11, 9600);
-  USBT.Init();
-  MIDIT.Init();
+  BT.Init(10, 11, 115200);
   irToMidi.InitIR();
   Serial.print("Hello Boys !!!");
   pinMode(useMidiAsKeyboardPin, INPUT_PULLUP);
@@ -49,7 +48,6 @@ void loop() {
       sString = "";
     }
   }
-
 
   irToMidi.ReadAndConvertToMidi();
   if (irToMidi.HasReceivedIR()) {
@@ -79,6 +77,8 @@ void loop() {
     }
   }
   //PIN BOOLEAN TO ACTION
+   Serial.print(".");
+   delay(100);
 }
 
 void PushLineMidi(byte note, byte velocity, byte channel) {
@@ -95,10 +95,9 @@ void PushLineMidi(bool press, byte note, byte velocity, byte channel) {
   PushLine(toPush);
 }
 void PushLine(String line) {
-  Serial.print("Found Line: ");
-  Serial.println(line);
+  LogPrintDoubleLn("Found Line:",line);
   //delay(3000);
   TryConvertAndExecute(line);
-  Serial.print("Sent");
+  LogPrintLn("Sent");
   
 }
