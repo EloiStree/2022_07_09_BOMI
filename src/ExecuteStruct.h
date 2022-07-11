@@ -34,6 +34,8 @@ void Execute(KeyboardControlString* toExecute);
 void Execute(PressionRequest* pression , MidiAction* toExecute);
 void Execute(PressionRequest* pression , int hidUsbId);
 void Execute(PressionRequest* pression , KeyboardUSBIDAction* toExecute);
+void Execute(PressionRequest* pression , KeyboardBLEIDAction* toExecute);
+
 void Execute(PressionRequest* pression , KeyboardCharTryToStrokeAction* toExecute);
 void Execute(PressionRequest* pression , KeyboardCharPrintAction* toExecute);
 void Execute(PressionRequest* pression , KeyboardAlphaStroke* toExecute);

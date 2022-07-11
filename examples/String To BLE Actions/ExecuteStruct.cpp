@@ -7,8 +7,11 @@
 #include "ExecuteStruct.h"
 #include "LogStruct.cpp"
 #include "SerialLog.cpp"
+#include "BlueBoard.h"
+#include <SPI.h>
+#define CONNECTIVITY_MODE    23
 
-
+BlueBoard blueBoard;
 ///////// KEYBOARD H ID //////////////////////////////////////////////
 //https://www.arduino.cc/reference/en/language/functions/usb/keyboard/keyboardmodifiers/
 #define KEY_LEFT_CTRL 0x80
@@ -179,20 +182,31 @@ static const void PressionIntTargetKey(bool press, bool release, int key) {
   //LogPrint(release);
   //LogPrint(key);
   //LogPrintLn();
-  if (press) {}
+int keys[1];
+keys[0]=(int) key;
+  if (press) {
+
+      blueBoard.sendKeys(keys, 1);
   //Keyboard.press(key);
+
+  }
   if (press && release)
     delay(timeBetweenPressRelease);
-  if (release) {}
+  if (release) {
+
+      blueBoard.resetKeys();
   //Keyboard.release(key);
+  }
 }
 static const void Stroke(int key) {
   PressionIntTargetKey(true, true, key);
 }
 static const void Press(int key) {
+
   //Keyboard.press(key);
 }
 static const void Release(int key) {
+  
   //Keyboard.release(key);
 }
 static const void PressionIntTargetKey(PressionRequest* pression, int key) {
@@ -220,6 +234,7 @@ KeyboardExecutor::KeyboardExecutor() {
 
   //Keyboard.begin();
   //Keyboard.releaseAll();
+  blueBoard.setup();
 }
 void KeyboardExecutor::ExecuteKeyPressionAlt() {
   //LogPrint(" Press ALT  ");
@@ -281,10 +296,12 @@ void KeyboardExecutor::ExecuteNumpadDigit(PressionRequest* pression, int index) 
   //LogPrint(index);
   //LogPrint(pression->press);
   //LogPrint(pression->release);
+
 }
 void KeyboardExecutor::ExecuteNumpadDigit(int index) {
   //LogPrint(" NP Stroke ");
   //LogPrint(index);
+
 }
 
 void KeyboardExecutor::Execute(ParseStringToNumpadStrokeAction* toExecute) {
@@ -321,11 +338,17 @@ void KeyboardExecutor::Execute(PressionRequest* pression, int hidUsbId) {
   //LogPrintLn(hidUsbId);
 }
 
+
+void  KeyboardExecutor::Execute(PressionRequest* pression , KeyboardBLEIDAction* toExecute){
+  PressionIntTargetKey(pression->press, pression->release,toExecute->id);
+}
+
 void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardUSBIDAction* toExecute) {
   //LogPrint(" Key HID : ");
   //LogPrint(pression->press);
   //LogPrint(pression->release);
   //LogPrintLn(toExecute->id);
+  PressionIntTargetKey(pression->press, pression->release,toExecute->id);
 }
 void KeyboardExecutor::Execute(PressionRequest* pression, KeyboardCharPrintAction* toExecute) {
   //LogPrint("CHAR Print:");

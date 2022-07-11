@@ -36,6 +36,8 @@ static KeyboardStringPrintAction* writeTextRequest = new KeyboardStringPrintActi
 static KeyboardCharTryToStrokeAction* charStrokeRequest =new KeyboardCharTryToStrokeAction();
 static KeyboardControlString*  writeControlTextRequest=new KeyboardControlString();
 static KeyboardStringPrintAction*  writeStringTextRequest=new KeyboardStringPrintAction();
+static KeyboardBLEIDAction*  bleKeyID=new KeyboardBLEIDAction();
+static KeyboardUSBIDAction*  usbKeyID=new KeyboardUSBIDAction();
 
 
 
@@ -53,6 +55,16 @@ if( TryConvertToText(cmd,   writeStringTextRequest ) ){
     Serial.print(">>T");
     Serial.println(writeStringTextRequest->toWrite);
     executor->Execute( writeStringTextRequest);
+}
+
+else if( TryConvertTo(cmd, pressRequesRequest ,  bleKeyID ) ) {
+  Serial.println(">>BLEID");
+  Serial.println(bleKeyID->id);
+    executor->Execute(pressRequesRequest, bleKeyID);
+} else if( TryConvertTo(cmd, pressRequesRequest ,  usbKeyID ) ) {
+  Serial.println(">>USBID");
+  Serial.println(usbKeyID->id);
+    executor->Execute(pressRequesRequest, usbKeyID);
 }
 else if( TryConvertToMidi(cmd, pressRequesRequest ,  midiRequest ) ){
   LogPrintLn(">>0");

@@ -306,6 +306,34 @@ static const bool TryConvertToText(CommandLineKeyValue *cmd, KeyboardStringPrint
   return false;
 }
 
+
+static const bool TryConvertTo(CommandLineKeyValue *cmd , PressionRequest *action, KeyboardUSBIDAction *actionOut)
+{
+  if (cmd->keyLength >= 2 && cmd->key[0] == 'K' && cmd->key[1] == 'U')
+  {
+    GetPressionFromCharKey(cmd, action);
+    actionOut->id = cmd->value.toInt();
+    return true;
+  }
+  return false;
+}
+
+
+static const bool TryConvertTo(CommandLineKeyValue *cmd, PressionRequest *action, KeyboardBLEIDAction *actionOut)
+{
+  if (cmd->keyLength >= 2 && cmd->key[0] == 'K' && cmd->key[1] == 'B')
+  {
+    GetPressionFromCharKey(cmd, action);
+    actionOut->id = cmd->value.toInt();
+    return true;
+  }
+  return false;
+}
+
+
+
+
+
 //////////////////////////////////// Transmit to all
 // The code here just transit information for the origine to destination(s) devices
 

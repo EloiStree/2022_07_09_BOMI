@@ -30,6 +30,9 @@ struct MidiAction {
 struct KeyboardUSBIDAction{
   int id;
 };
+struct KeyboardBLEIDAction{
+  int id;
+};
 struct KeyboardCharTryToStrokeAction{
   char toStroke;
 };

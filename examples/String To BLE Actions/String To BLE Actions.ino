@@ -9,7 +9,6 @@
 //#include "SerialLog/SerialLog.cpp"
 //#include "ExecuteStruct.cpp"
 #include "ExecuteStruct.h"
-#include "BLEPush.h"
 
 USBSerialToStringLine BT;
 IR2Midi irToMidi;
@@ -20,7 +19,6 @@ bool m_writeMidiCodeWithNumPad = true;
 
 ListenPinsAsBoolean pinsAsBoolean;
 int useMidiAsKeyboardPin = 2;
-BLEPush blePush =  BLEPush();
 
 void setup() {
   SetSerialLog(true);
@@ -36,13 +34,15 @@ void setup() {
   ////SETUP
   ////SETUP
   
-  blePush.BLE_Setup(false);
 
 }
 String sString = "";
+int i=0;
 void loop() {
-  blePush.BLE_Loop();
-
+  i++;
+  delay(4000);
+PushLineID(i);
+i = i%127;
   // m_writeMidiCodeWithNumPad = digitalRead(useMidiAsKeyboardPin) != HIGH;
   // sString = "";
   // if (BT.CheckForAvailable()) {
@@ -103,6 +103,12 @@ void PushLineMidi(bool press, byte note, byte velocity, byte channel) {
   toPush += ",";
   toPush += channel;
   PushLine(toPush);
+}
+String idS="";
+void PushLineID(int id){
+idS="KB:";
+idS+=id;
+PushLine(idS);
 }
 void PushLine(String line) {
   LogPrintDoubleLn("Found Line:",line);
